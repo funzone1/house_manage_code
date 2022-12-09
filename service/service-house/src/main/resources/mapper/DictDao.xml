@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuzai.dao.DictDao">
+
+    <!-- 用于select查询公用抽取的列 -->
+    <sql id="columns">
+		select id,parent_id,name,dict_code,create_time,update_time,is_deleted
+	</sql>
+
+    <select id="findListByParentId" resultType="dict">
+        <include refid="columns"></include>
+        from hse_dict
+        where parent_id=#{id} and is_deleted=0
+    </select>
+
+    <select id="IsParent" resultType="integer">
+        select count(id)
+        from hse_dict
+        where parent_id=#{id} and is_deleted=0
+    </select>
+
+    <select id="getByDictCode" resultType="dict">
+        <include refid="columns"></include>
+        from hse_dict
+        where dict_code=#{dictCode} and is_deleted=0
+    </select>
+
+    <select id="getNameById" resultType="string">
+        select name
+        from hse_dict
+        where id=#{id}
+    </select>
+</mapper>
